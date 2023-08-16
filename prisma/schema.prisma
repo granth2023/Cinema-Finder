@@ -13,6 +13,31 @@ datasource db {
 model Movie {
   id        Int      @id @default(autoincrement())
   title     String
-  theater   String
-  showtime  DateTime
+  screening   Screening[]
+  favorites  Favorite[]
+}
+
+model User { 
+  id      Int @id @default(autoincrement())
+  email   String  @unique 
+  name   String
+  screenings  Screening[]
+  favorites Favorite[]
+}
+model Screening{ 
+  id Int @id @default(autoincrement())
+  spot String 
+  showtime DateTimemovie Movie  @realtion(fields: [movieId], references: [id])
+  movieId  Int 
+  user      User  @realtion(fields: [userId], references: [id])
+  userId    Int
+}
+
+model Favorite { 
+  id     Int @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
+  movie   Movie  @relation(fields:[movieId], references: [id])
+  movieId Int
+
 }
