@@ -39,3 +39,14 @@ model Favorite {
   movie   Movie  @relation(fields: [movieId], references: [id])
   movieId Int
 }
+
+model Theater {
+  id Int @id @default(autoincrement())
+  name String
+  address String 
+  lat Float 
+  lng Float 
+  screenings Screening[]
+}
+
+}
