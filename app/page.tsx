@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from 'react'
 import Modal from '../app/components/Modal'
 import FindTheaterPage from '../app/findTheater/page';
@@ -27,7 +29,8 @@ function HomePage(){
   };
 
 return (
-  <div>
+
+    <div style={{ backgroundColor: 'white', minHeight: '100vh'}}>
     <button onClick={handleOpenModal}>Find Theater</button>
 
     <Modal show={isModalOpen} onClose={handleCloseModal}>
@@ -39,12 +42,14 @@ return (
           <h2>{movie.title}</h2>
           {/* display screenings and favorites */}
           
-
-      </div>  
+      </div>
+    
     ))}
-
+    
+   
   </div>
 )
+
     }
 
     export default HomePage

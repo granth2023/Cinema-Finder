@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Movies {
+model Movie {
   id        Int      @id @default(autoincrement())
   title     String
   screening Screening[]
@@ -30,6 +30,8 @@ model Screening {
   movieId   Int
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
+  theaterId Int 
+  theater   Theater @relation(fields: [theaterId], references: [id])
 }
 
 model Favorite {
@@ -49,4 +51,3 @@ model Theater {
   screenings Screening[]
 }
 
-}
