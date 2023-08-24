@@ -6,6 +6,7 @@ type GooglePlacesResult = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    res.status(200).json({ message: 'Test successful' });
     const { query } = req.query;
 
     if (!query) {
