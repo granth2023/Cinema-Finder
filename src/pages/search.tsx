@@ -23,6 +23,20 @@ const Search = () => {
   const [isGoogleMapLoaded, setGoogleMapLoaded] = useState(false);
   const [selectedTheater, setSelectedTheater] = useState<Theater | null>(null);
   const [theaters, setTheaters] = useState<Theater[]>([]);
+  const [userLocation, setUserLocation] = useState({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      });
+    } else {
+      console.warn("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   useEffect(() => {
     if (isGoogleMapLoaded) {
@@ -35,9 +49,9 @@ const Search = () => {
             innerDiv.style.overflow = 'visible';
           }
         }
-      }, 1000);  // Waits 1 second before executing the code need more react way, this is a workaround not exactly a solution
+      }, 1000);
     }
-}, [isGoogleMapLoaded]);
+  }, [isGoogleMapLoaded]);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -75,42 +89,40 @@ const Search = () => {
 
   return (
     <div>
-        {isGoogleMapLoaded ? (
-            <div className="bg-white min-h-screen">
-                <div className="text-center text-black font-semibold text-2xl mb-4">
-                    Theater Search
-                </div>
-                
-                <div className="map-container" style={{ width: '500px', height: '500px' }}>
-                    <GoogleMap 
-                        zoom={10} 
-                        center={{ lat: DEFAULT_LAT, lng: DEFAULT_LNG }}
-                    >
-                        {theaters.map((theater) => (
-                            <Marker
-                                key={theater.id}
-                                position={{ lat: theater.lat, lng: theater.lng }}
-                                onClick={() => handleMarkerClick(theater)}
-                            />
-                        ))}
-                        
-                        {selectedTheater && (
-                            <InfoWindow
-                                position={{ lat: selectedTheater.lat, lng: selectedTheater.lng }}
-                                onCloseClick={() => setSelectedTheater(null)}
-                            >
-                                <div>
-                                    <h2>{selectedTheater.name}</h2>
-                                    <p>{selectedTheater.address}</p>
-                                </div>
-                            </InfoWindow>
-                        )}
-                    </GoogleMap>
-                </div>
-            </div>
-        ) : (
-            <p>Loading Google Maps...</p>
-        )}
+      {isGoogleMapLoaded ? (
+        <div className="bg-white min-h-screen">
+          <div className="text-center text-black font-semibold text-2xl mb-4">
+            Theater Search
+          </div>
+          <div className="map-container" style={{ width: '500px', height: '500px' }}>
+            <GoogleMap 
+              zoom={10} 
+              center={{ lat: userLocation.lat, lng: userLocation.lng }}
+            >
+              {theaters.map((theater) => (
+                <Marker
+                  key={theater.id}
+                  position={{ lat: theater.lat, lng: theater.lng }}
+                  onClick={() => handleMarkerClick(theater)}
+                />
+              ))}
+              {selectedTheater && (
+                <InfoWindow
+                  position={{ lat: selectedTheater.lat, lng: selectedTheater.lng }}
+                  onCloseClick={() => setSelectedTheater(null)}
+                >
+                  <div>
+                    <h2>{selectedTheater.name}</h2>
+                    <p>{selectedTheater.address}</p>
+                  </div>
+                </InfoWindow>
+              )}
+            </GoogleMap>
+          </div>
+        </div>
+      ) : (
+        <p>Loading Google Maps...</p>
+      )}
     </div>
   );
 }
