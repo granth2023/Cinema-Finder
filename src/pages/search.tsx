@@ -25,6 +25,12 @@ const Search = () => {
   const [theaters, setTheaters] = useState<Theater[]>([]);
 
   useEffect(() => {
+    console.log("isGoogleMapLoaded has been updated:", isGoogleMapLoaded);
+  }, [isGoogleMapLoaded]);
+
+  useEffect(() => {
+    console.log("API Key: ", GOOGLE_MAPS_API_KEY);
+    console.log("Is Google Map Loaded: ", isGoogleMapLoaded);
     if (typeof window === 'undefined') {
       return;
     }
@@ -35,16 +41,17 @@ const Search = () => {
     }
 
     window.initMap = () => {
+      console.log("initMap");
       setGoogleMapLoaded(true); 
+      console.log("After setGoogleMapLoaded:", isGoogleMapLoaded);
     };
 
     const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap`;
     script.async = true;
     script.defer = true;
-
-    script.addEventListener("load", () => {
-      setGoogleMapLoaded(true);
+    script.addEventListener("error", (error) => {
+      console.log("script failed to load", error);
     });
 
     document.head.appendChild(script);
