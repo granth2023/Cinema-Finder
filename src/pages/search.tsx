@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+import React, { useState, useEffect, useRef } from 'react';
+import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
 
-declare global {
-  interface Window {
-    initMap: () => void;
-  }
-}
-
-const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
+const libraries = ['places'];
 const DEFAULT_LAT = 40.7128;
 const DEFAULT_LNG = -74.0060;
+const MAP_CONTAINER_STYLE = {
+  height: "100vh",
+  width: "100vw",
+};
+
+interface Location {
+  lat: number;
+  lng: number;
+}
 
 interface Theater {
   id: string;
@@ -20,111 +24,100 @@ interface Theater {
 }
 
 const Search = () => {
-  const [isGoogleMapLoaded, setGoogleMapLoaded] = useState(false);
+  const [userLocation, setUserLocation] = useState<Location | null>(null);
   const [selectedTheater, setSelectedTheater] = useState<Theater | null>(null);
   const [theaters, setTheaters] = useState<Theater[]>([]);
-  const [userLocation, setUserLocation] = useState({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
+  const mapRef = useRef<google.maps.Map | null>(null);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
+
+  const onMapLoad = (map: google.maps.Map) => {
+    mapRef.current = map;
+  };
 
   useEffect(() => {
-    if (navigator.geolocation) {
+    setTimeout(() => {
       navigator.geolocation.getCurrentPosition((position) => {
         setUserLocation({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         });
       });
-    } else {
-      console.warn("Geolocation is not supported by this browser.");
-    }
+    }, 3000);
   }, []);
 
   useEffect(() => {
-    if (isGoogleMapLoaded) {
-      setTimeout(() => {
-        const mapContainer = document.querySelector('.map-container');
-        if (mapContainer) {
-          const innerDiv = mapContainer.firstChild as HTMLElement;
-          if (innerDiv && innerDiv.style) {
-            innerDiv.style.position = 'static';
-            innerDiv.style.overflow = 'visible';
-          }
+    if (isLoaded && userLocation && mapRef.current) {
+console.log("places API is laoded, location set, map initialized")
+
+      const service = new google.maps.places.PlacesService(mapRef.current);
+      service.textSearch({
+        query: "move theater near me",
+        location: userLocation,
+     
+      }, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+          console.log("successfully fetched theaters: ", results);
+
+          const newTheaters = results.map(result => {
+            const geometry = result.geometry;
+            const location = geometry?.location ?? null;
+
+            return {
+              id: result.place_id ?? '',
+              lat: location?.lat() ?? 0,
+              lng: location?.lng() ?? 0,
+              name: result.name ?? '',
+              address: result.vicinity ?? '',
+            };
+          });
+
+          setTheaters(newTheaters);
+        } else {
+          console.log("failed to fetch theaters, status: ", status);
         }
-      }, 1000);
+      });
+    } else {
+      console.log("places API is not laoded, location set, map initialized")
     }
-  }, [isGoogleMapLoaded]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-    
-    if (!GOOGLE_MAPS_API_KEY) {
-      console.error("Please set GOOGLE_MAPS_API_KEY");
-      return;
-    }
-
-    window.initMap = () => {
-      setGoogleMapLoaded(true);
-    };
-
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initMap`;
-    script.async = true;
-    script.defer = true;
-    script.addEventListener("error", (error) => {
-      console.log("script failed to load", error);
-    });
-
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-      delete(window as any).initMap;
-    };
-  }, []);
-
-  const handleMarkerClick = (theater: Theater) => {
-    setSelectedTheater(theater);
-  };
+  }, [isLoaded, userLocation]);
 
   return (
     <div>
-      {isGoogleMapLoaded ? (
-        <div className="bg-white min-h-screen">
-          <div className="text-center text-black font-semibold text-2xl mb-4">
-            Theater Search
-          </div>
-          <div className="map-container" style={{ width: '500px', height: '500px' }}>
-            <GoogleMap 
-              zoom={10} 
-              center={{ lat: userLocation.lat, lng: userLocation.lng }}
+      {isLoaded ? (
+        <GoogleMap
+          mapContainerStyle={MAP_CONTAINER_STYLE}
+          zoom={10}
+          center={userLocation ?? { lat: DEFAULT_LAT, lng: DEFAULT_LNG }}
+          onLoad={onMapLoad}
+        >
+          {theaters.map((theater) => (
+            <Marker
+              key={theater.id}
+              position={{ lat: theater.lat, lng: theater.lng }}
+              onClick={() => setSelectedTheater(theater)}
+            />
+          ))}
+          {selectedTheater && (
+            <InfoWindow
+              position={{ lat: selectedTheater.lat, lng: selectedTheater.lng }}
+              onCloseClick={() => setSelectedTheater(null)}
             >
-              {theaters.map((theater) => (
-                <Marker
-                  key={theater.id}
-                  position={{ lat: theater.lat, lng: theater.lng }}
-                  onClick={() => handleMarkerClick(theater)}
-                />
-              ))}
-              {selectedTheater && (
-                <InfoWindow
-                  position={{ lat: selectedTheater.lat, lng: selectedTheater.lng }}
-                  onCloseClick={() => setSelectedTheater(null)}
-                >
-                  <div>
-                    <h2>{selectedTheater.name}</h2>
-                    <p>{selectedTheater.address}</p>
-                  </div>
-                </InfoWindow>
-              )}
-            </GoogleMap>
-          </div>
-        </div>
+              <div>
+                <h2>{selectedTheater.name}</h2>
+                <p>{selectedTheater.address}</p>
+              </div>
+            </InfoWindow>
+          )}
+        </GoogleMap>
       ) : (
-        <p>Loading Google Maps...</p>
+        <h1>Loading...</h1>
       )}
     </div>
   );
-}
+};
 
 export default Search;
