@@ -25,3 +25,8 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.map-container > div {
+  position: static !important;
+  overflow: visible !important;
+}

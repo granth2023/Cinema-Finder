@@ -25,12 +25,21 @@ const Search = () => {
   const [theaters, setTheaters] = useState<Theater[]>([]);
 
   useEffect(() => {
-    console.log("isGoogleMapLoaded has been updated:", isGoogleMapLoaded);
-  }, [isGoogleMapLoaded]);
+    if (isGoogleMapLoaded) {
+      setTimeout(() => {
+        const mapContainer = document.querySelector('.map-container');
+        if (mapContainer) {
+          const innerDiv = mapContainer.firstChild as HTMLElement;
+          if (innerDiv && innerDiv.style) {
+            innerDiv.style.position = 'static';
+            innerDiv.style.overflow = 'visible';
+          }
+        }
+      }, 1000);  // Waits 1 second before executing the code need more react way, this is a workaround not exactly a solution
+    }
+}, [isGoogleMapLoaded]);
 
   useEffect(() => {
-    console.log("API Key: ", GOOGLE_MAPS_API_KEY);
-    console.log("Is Google Map Loaded: ", isGoogleMapLoaded);
     if (typeof window === 'undefined') {
       return;
     }
@@ -41,9 +50,7 @@ const Search = () => {
     }
 
     window.initMap = () => {
-      console.log("initMap");
-      setGoogleMapLoaded(true); 
-      console.log("After setGoogleMapLoaded:", isGoogleMapLoaded);
+      setGoogleMapLoaded(true);
     };
 
     const script = document.createElement("script");
@@ -58,7 +65,7 @@ const Search = () => {
 
     return () => {
       document.head.removeChild(script);
-      delete(window as any).initMap;// Updated line
+      delete(window as any).initMap;
     };
   }, []);
 
@@ -68,40 +75,44 @@ const Search = () => {
 
   return (
     <div>
-      {isGoogleMapLoaded ? (
-        <div className="bg-white min-h-screen">
-          <div className="text-center text-black font-semibold text-2xl mb-4">
-            Theater Search
-          </div>
-          <div className="h-[500px]">
-            <GoogleMap zoom={10} center={{ lat: DEFAULT_LAT, lng: DEFAULT_LNG }}>
-              {theaters.map((theater) => (
-                <Marker
-                  key={theater.id}
-                  position={{ lat: theater.lat, lng: theater.lng }}
-                  onClick={() => handleMarkerClick(theater)}
-                />
-              ))}
-
-              {selectedTheater && (
-                <InfoWindow
-                  position={{ lat: selectedTheater.lat, lng: selectedTheater.lng }}
-                  onCloseClick={() => setSelectedTheater(null)}
-                >
-                  <div>
-                    <h2>{selectedTheater.name}</h2>
-                    <p>{selectedTheater.address}</p>
-                  </div>
-                </InfoWindow>
-              )}
-            </GoogleMap>
-          </div>
-        </div>
-      ) : (
-        <p>Loading Google Maps...</p>
-      )}
+        {isGoogleMapLoaded ? (
+            <div className="bg-white min-h-screen">
+                <div className="text-center text-black font-semibold text-2xl mb-4">
+                    Theater Search
+                </div>
+                
+                <div className="map-container" style={{ width: '500px', height: '500px' }}>
+                    <GoogleMap 
+                        zoom={10} 
+                        center={{ lat: DEFAULT_LAT, lng: DEFAULT_LNG }}
+                    >
+                        {theaters.map((theater) => (
+                            <Marker
+                                key={theater.id}
+                                position={{ lat: theater.lat, lng: theater.lng }}
+                                onClick={() => handleMarkerClick(theater)}
+                            />
+                        ))}
+                        
+                        {selectedTheater && (
+                            <InfoWindow
+                                position={{ lat: selectedTheater.lat, lng: selectedTheater.lng }}
+                                onCloseClick={() => setSelectedTheater(null)}
+                            >
+                                <div>
+                                    <h2>{selectedTheater.name}</h2>
+                                    <p>{selectedTheater.address}</p>
+                                </div>
+                            </InfoWindow>
+                        )}
+                    </GoogleMap>
+                </div>
+            </div>
+        ) : (
+            <p>Loading Google Maps...</p>
+        )}
     </div>
   );
-};
+}
 
 export default Search;
