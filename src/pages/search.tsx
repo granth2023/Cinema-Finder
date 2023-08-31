@@ -6,8 +6,9 @@ const libraries = ['places'];
 const DEFAULT_LAT = 40.7128;
 const DEFAULT_LNG = -74.0060;
 const MAP_CONTAINER_STYLE = {
-  height: "100vh",
-  width: "100vw",
+  height: "80vh",  // Adjust the height
+  width: "80vw",   // Adjust the width
+  margin: "auto",  // Center horizontally
 };
 
 interface Location {
@@ -21,6 +22,7 @@ interface Theater {
   lng: number;
   name: string;
   address: string;
+  website?: string;
 }
 
 const Search = () => {
@@ -38,6 +40,20 @@ const Search = () => {
     mapRef.current = map;
   };
 
+  const fetchAdditionalDetails = (placeId: string, callback: (data: any) => void) => {
+    const request = {
+      placeId,
+      fields: ['website']
+    };
+
+    const service = new google.maps.places.PlacesService(mapRef.current as google.maps.Map);
+    service.getDetails(request, (place, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+        callback(place);
+      }
+    });
+  };
+
   useEffect(() => {
     setTimeout(() => {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -51,17 +67,12 @@ const Search = () => {
 
   useEffect(() => {
     if (isLoaded && userLocation && mapRef.current) {
-console.log("places API is laoded, location set, map initialized")
-
       const service = new google.maps.places.PlacesService(mapRef.current);
       service.textSearch({
-        query: "move theater near me",
+        query: "movie theater near me",
         location: userLocation,
-     
       }, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-          console.log("successfully fetched theaters: ", results);
-
           const newTheaters = results.map(result => {
             const geometry = result.geometry;
             const location = geometry?.location ?? null;
@@ -76,18 +87,18 @@ console.log("places API is laoded, location set, map initialized")
           });
 
           setTheaters(newTheaters);
-        } else {
-          console.log("failed to fetch theaters, status: ", status);
         }
       });
-    } else {
-      console.log("places API is not laoded, location set, map initialized")
     }
   }, [isLoaded, userLocation]);
 
   return (
-    <div>
-      {isLoaded ? (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
+    <div style={{ width: "100%", height: "20%" }}>
+      {/* Your NavBar can go here */}
+    </div>
+    {isLoaded ? (
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <GoogleMap
           mapContainerStyle={MAP_CONTAINER_STYLE}
           zoom={10}
@@ -98,7 +109,11 @@ console.log("places API is laoded, location set, map initialized")
             <Marker
               key={theater.id}
               position={{ lat: theater.lat, lng: theater.lng }}
-              onClick={() => setSelectedTheater(theater)}
+              onClick={() => {
+                fetchAdditionalDetails(theater.id, (place) => {
+                  setSelectedTheater({ ...theater, website: place.website });
+                });
+              }}
             />
           ))}
           {selectedTheater && (
@@ -109,10 +124,12 @@ console.log("places API is laoded, location set, map initialized")
               <div>
                 <h2>{selectedTheater.name}</h2>
                 <p>{selectedTheater.address}</p>
+                {selectedTheater.website && <a href={selectedTheater.website} target="_blank" rel="noopener noreferrer">Visit Website</a>}
               </div>
             </InfoWindow>
           )}
         </GoogleMap>
+        </div>
       ) : (
         <h1>Loading...</h1>
       )}
