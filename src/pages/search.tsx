@@ -45,18 +45,24 @@ const Search = () => {
   const fetchAdditionalDetails = (placeId: string, callback: (data: any) => void) => {
     const request = {
       placeId,
-      fields: ['formatted_address','website']
+      fields: ['formatted_address', 'website']
     };
 
     const service = new google.maps.places.PlacesService(mapRef.current as google.maps.Map);
     service.getDetails(request, (place, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK && place) {
         callback({
-         website: place.website || '',
-         address: place.formatted_address || '',
+          website: place.website || '',
+          address: place.formatted_address || '',
         });
       }
     });
+  };
+
+  const getDirectionsTo = (theater: Theater) => {
+    if (!userLocation) return;
+    const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${theater.lat},${theater.lng}&travelmode=driving`;
+    window.open(directionsUrl, "_blank");
   };
 
   useEffect(() => {
@@ -88,7 +94,6 @@ const Search = () => {
               lng: location?.lng() ?? 0,
               name: result.name ?? '',
               address: result.vicinity ?? '',
-              
             };
           });
 
@@ -131,6 +136,7 @@ const Search = () => {
                   <h2>{selectedTheater.name}</h2>
                   <p>{selectedTheater.address}</p>
                   {selectedTheater.website && <a href={selectedTheater.website} target="_blank" rel="noopener noreferrer">Visit Website</a>}
+                  <button onClick={() => getDirectionsTo(selectedTheater)}>Get Directions</button>
                 </div>
               </InfoWindow>
             )}
