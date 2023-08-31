@@ -45,7 +45,7 @@ const Search = () => {
   const fetchAdditionalDetails = (placeId: string, callback: (data: any) => void) => {
     const request = {
       placeId,
-      fields: ['formatted_address', 'website']
+      fields: ['formatted_address', 'website'],
     };
 
     const service = new google.maps.places.PlacesService(mapRef.current as google.maps.Map);
@@ -59,10 +59,16 @@ const Search = () => {
     });
   };
 
-  const getDirectionsTo = (theater: Theater) => {
-    if (!userLocation) return;
-    const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${theater.lat},${theater.lng}&travelmode=driving`;
-    window.open(directionsUrl, "_blank");
+  const getUberTo = (theater: Theater) => {
+    const uberUrl = `https://m.uber.com/ul/action=setPickup&dropoff[latitude]=${theater.lat}&dropoff[longitude]=${theater.lng}`;
+    window.open(uberUrl, "_blank");
+  };
+
+  const getDirections = (theater: Theater) => {
+    if (userLocation) {
+      const directionUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${theater.lat},${theater.lng}`;
+      window.open(directionUrl, "_blank");
+    }
   };
 
   useEffect(() => {
@@ -136,7 +142,8 @@ const Search = () => {
                   <h2>{selectedTheater.name}</h2>
                   <p>{selectedTheater.address}</p>
                   {selectedTheater.website && <a href={selectedTheater.website} target="_blank" rel="noopener noreferrer">Visit Website</a>}
-                  <button onClick={() => getDirectionsTo(selectedTheater)}>Get Directions</button>
+                  <button onClick={() => getUberTo(selectedTheater)}>Get Uber</button>
+                  <button onClick={() => getDirections(selectedTheater)}>Get Directions</button>
                 </div>
               </InfoWindow>
             )}
