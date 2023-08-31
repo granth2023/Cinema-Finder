@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
+import NavBar from '../components/NavBar';
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
 const libraries = ['places'];
@@ -95,7 +96,7 @@ const Search = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
     <div style={{ width: "100%", height: "20%" }}>
-      {/* Your NavBar can go here */}
+      <NavBar/>
     </div>
     {isLoaded ? (
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
