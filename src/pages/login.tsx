@@ -26,6 +26,8 @@ export default function LoginPage() {
 
     try {
       const response = await axios.post('/api/auth/login', formData);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('isLoggedIn', 'true');
       // Handle successful login here. Maybe redirect to dashboard or some other page.
       router.push('/');
     } catch (err) {

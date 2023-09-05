@@ -17,6 +17,7 @@ model Movie {
   title     String
   screening Screening[]
   favorites Favorite[]
+  watchlists Watchlist[]
 }
 
 model User { 
@@ -29,6 +30,7 @@ model User {
   role      UserRole @default(User)
   screenings Screening[]
   favorites Favorite[]
+  watchlists Watchlist[]
 }
 
 model Screening {
@@ -59,4 +61,13 @@ model Theater {
   lng Float 
   screenings Screening[]
 }
+
+model Watchlist {
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int 
+  movie   Movie  @relation(fields: [movieId], references: [id])
+  movieId Int
+}
+
 
