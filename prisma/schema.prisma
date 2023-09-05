@@ -7,6 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  User 
+  ADMIN
+}
+
 model Movie {
   id        Int      @id @default(autoincrement())
   title     String
@@ -21,6 +26,7 @@ model User {
   password  String
   passwordResetToken String? @unique
   passwordResetTokenExpiry DateTime? 
+  role      UserRole @default(User)
   screenings Screening[]
   favorites Favorite[]
 }
