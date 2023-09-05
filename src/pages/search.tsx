@@ -7,14 +7,15 @@ const libraries = ['places'];
 const DEFAULT_LAT = 40.7128;
 const DEFAULT_LNG = -74.0060;
 const MAP_CONTAINER_STYLE = {
-  height: "80vh",  // Adjust the height
-  width: "80vw",   // Adjust the width
-  margin: "auto",  // Center horizontally
+  height: "80vh",
+  width: "80vw",
+  margin: "auto",
 };
 
 interface Location {
   lat: number;
   lng: number;
+  address?: string;
 }
 
 interface Theater {
@@ -44,15 +45,30 @@ const Search = () => {
   const fetchAdditionalDetails = (placeId: string, callback: (data: any) => void) => {
     const request = {
       placeId,
-      fields: ['website']
+      fields: ['formatted_address', 'website'],
     };
 
     const service = new google.maps.places.PlacesService(mapRef.current as google.maps.Map);
     service.getDetails(request, (place, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK && place) {
-        callback(place);
+        callback({
+          website: place.website || '',
+          address: place.formatted_address || '',
+        });
       }
     });
+  };
+
+  const getUberTo = (theater: Theater) => {
+    const uberUrl = `https://m.uber.com/ul/action=setPickup&dropoff[latitude]=${theater.lat}&dropoff[longitude]=${theater.lng}`;
+    window.open(uberUrl, "_blank");
+  };
+
+  const getDirections = (theater: Theater) => {
+    if (userLocation) {
+      const directionUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${theater.lat},${theater.lng}`;
+      window.open(directionUrl, "_blank");
+    }
   };
 
   useEffect(() => {
@@ -95,41 +111,43 @@ const Search = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh" }}>
-    <div style={{ width: "100%", height: "20%" }}>
-      <NavBar/>
-    </div>
-    {isLoaded ? (
-      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <GoogleMap
-          mapContainerStyle={MAP_CONTAINER_STYLE}
-          zoom={10}
-          center={userLocation ?? { lat: DEFAULT_LAT, lng: DEFAULT_LNG }}
-          onLoad={onMapLoad}
-        >
-          {theaters.map((theater) => (
-            <Marker
-              key={theater.id}
-              position={{ lat: theater.lat, lng: theater.lng }}
-              onClick={() => {
-                fetchAdditionalDetails(theater.id, (place) => {
-                  setSelectedTheater({ ...theater, website: place.website });
-                });
-              }}
-            />
-          ))}
-          {selectedTheater && (
-            <InfoWindow
-              position={{ lat: selectedTheater.lat, lng: selectedTheater.lng }}
-              onCloseClick={() => setSelectedTheater(null)}
-            >
-              <div>
-                <h2>{selectedTheater.name}</h2>
-                <p>{selectedTheater.address}</p>
-                {selectedTheater.website && <a href={selectedTheater.website} target="_blank" rel="noopener noreferrer">Visit Website</a>}
-              </div>
-            </InfoWindow>
-          )}
-        </GoogleMap>
+      <div style={{ width: "100%", height: "20%" }}>
+        <NavBar />
+      </div>
+      {isLoaded ? (
+        <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <GoogleMap
+            mapContainerStyle={MAP_CONTAINER_STYLE}
+            zoom={10}
+            center={userLocation ?? { lat: DEFAULT_LAT, lng: DEFAULT_LNG }}
+            onLoad={onMapLoad}
+          >
+            {theaters.map((theater) => (
+              <Marker
+                key={theater.id}
+                position={{ lat: theater.lat, lng: theater.lng }}
+                onClick={() => {
+                  fetchAdditionalDetails(theater.id, (place) => {
+                    setSelectedTheater({ ...theater, website: place.website, address: place.address });
+                  });
+                }}
+              />
+            ))}
+            {selectedTheater && (
+              <InfoWindow
+                position={{ lat: selectedTheater.lat, lng: selectedTheater.lng }}
+                onCloseClick={() => setSelectedTheater(null)}
+              >
+                <div>
+                  <h2>{selectedTheater.name}</h2>
+                  <p>{selectedTheater.address}</p>
+                  {selectedTheater.website && <a href={selectedTheater.website} target="_blank" rel="noopener noreferrer">Visit Website</a>}
+                  <button onClick={() => getUberTo(selectedTheater)}>Get Uber</button>
+                  <button onClick={() => getDirections(selectedTheater)}>Get Directions</button>
+                </div>
+              </InfoWindow>
+            )}
+          </GoogleMap>
         </div>
       ) : (
         <h1>Loading...</h1>
