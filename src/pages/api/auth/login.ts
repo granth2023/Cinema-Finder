@@ -26,5 +26,5 @@ const valid = await bcrypt.compare(password, user.password);
 
     const token = jwt.sign({ id: user.id, email: user.email},  process.env.JWT_SECRET!, { expiresIn: "1h" });
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, userId: user.id });
 }

@@ -25,16 +25,33 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/auth/login', formData);
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('isLoggedIn', 'true');
-      // Handle successful login here. Maybe redirect to dashboard or some other page.
-      router.push('/');
+        const response = await axios.post('/api/auth/login', formData);
+        console.log('Login response:', response.data);
+
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('isLoggedIn', 'true');
+
+        const userId = response.data?.userId;
+        if (userId) {
+            localStorage.setItem('userId', userId.toString());
+        } else {
+            console.error('User ID not found in response');
+        }
+
+        if (!router.isBusy) {
+            console.log('Redirecting to home...');
+            await router.push('/');
+            console.log('Redirected');
+        } else {
+            console.log('Router is busy');
+        }
     } catch (err) {
-      const errorResponse = (err as AxiosError<ResponseData>).response;
-      setError(errorResponse?.data?.error || "An error occurred during login.");
+        const errorResponse = (err as AxiosError<ResponseData>).response;
+        setError(errorResponse?.data?.error || "An error occurred during login.");
+        console.error('Login error:', err);
     }
-  };
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
