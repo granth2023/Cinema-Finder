@@ -1,17 +1,22 @@
 import NavBar from "../components/NavBar";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useUser } from "../context/UserContext";
+import { useUser } from "./contexts/UserContext";
+
+type Movie = {
+    id: number;
+    title: string;
+}
 
 const ProfilePage: React.FC = () => {
     const { user } = useUser();
-    const [favorites, setFavorites] = useState([]);
+    const [favorites, setFavorites] = useState<Movie[]>([]);
 
     useEffect(() => {
         const fetchFavorites = async () => {
             if(user){ 
                 try { 
-                    const res = await axios.get('/api/favorites/${user.id}');
+                    const res = await axios.get('/api/favorite/add/${user.id}');
                     setFavorites(res.data);
                 } catch (error) {
                     console.error('Error fetching favorites:', error);

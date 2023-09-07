@@ -54,12 +54,8 @@ export default async function addFavorite(req: NextApiRequest, res: NextApiRespo
 
         console.log("Added to favorites");
         res.status(200).json({ message: 'Added to favorites' });
-    } catch (err) {
-        console.error("Error in addFavorite:", {
-            errorMessage: err.message,
-            stack: err.stack,
-            name: err.name,
-        });
-        res.status(500).json({ error: err.message });
+    } catch (error) {
+        console.error("Error in addFavorite:", error); 
+        res.status(500).json({ error: `unable to fetch favorites` });
     }
 }
