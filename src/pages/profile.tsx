@@ -1,7 +1,7 @@
 import NavBar from "../components/NavBar";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useUser } from "./contexts/UserContext";
+import { useUser } from "../../contexts/UserContext";
 
 type Movie = {
     id: number;
@@ -16,7 +16,7 @@ const ProfilePage: React.FC = () => {
         const fetchFavorites = async () => {
             if(user){ 
                 try { 
-                    const res = await axios.get('/api/favorite/add/${user.id}');
+                    const res = await axios.get(`/api/favorite/add/${user.id}`);
                     setFavorites(res.data);
                 } catch (error) {
                     console.error('Error fetching favorites:', error);
@@ -30,7 +30,7 @@ const ProfilePage: React.FC = () => {
     return (
         <div className="container mx-auto p-4"> 
             <NavBar />
-            <h1 className="text- 2x1 font-bold">Profile Page</h1>
+            <h1 className="text-2x1 font-bold">Profile Page</h1>
             <h2>Your Favorites</h2>
             <ul>
                 {favorites.map(movie => (

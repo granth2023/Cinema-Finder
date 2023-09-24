@@ -25,6 +25,8 @@ interface Theater {
   name: string;
   address: string;
   website?: string;
+  scrapingUrl?: string;
+  siteIdentifier?: string;
 }
 
 const Search = () => {
@@ -58,6 +60,24 @@ const Search = () => {
       }
     });
   };
+  async function fetchScreenings(theater: Theater) {
+    if (!theater.scrapingUrl || !theater.siteIdentifier) {
+      alert("No screenings found for this theater");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`/api/scrape?url=${theater.scrapingUrl}&site=${theater.siteIdentifier}`);
+      const screenings = await response.json();
+      
+      // Here you can set the screenings to state and display them.
+      // For simplicity, we'll just log them.
+      console.log(screenings);
+    } catch (error) {
+      console.error("Error fetching screenings:", error);
+    }
+  }
+  
 
   const getUberTo = (theater: Theater) => {
     const uberUrl = `https://m.uber.com/ul/action=setPickup&dropoff[latitude]=${theater.lat}&dropoff[longitude]=${theater.lng}`;
@@ -144,6 +164,7 @@ const Search = () => {
                   {selectedTheater.website && <a href={selectedTheater.website} target="_blank" rel="noopener noreferrer">Visit Website</a>}
                   <button onClick={() => getUberTo(selectedTheater)}>Get Uber</button>
                   <button onClick={() => getDirections(selectedTheater)}>Get Directions</button>
+                  <button onClick={() => fetchScreenings(selectedTheater)}>Get Showtimes</button>
                 </div>
               </InfoWindow>
             )}

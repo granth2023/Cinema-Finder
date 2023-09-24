@@ -1,7 +1,8 @@
 import type { AppProps } from 'next/app';
 import NavBar from '../components/NavBar';
 import '../Cinema-Finder/src/styles/globals.css';
-import { UserProvider } from '../../src/pages/contexts/UserContext';
+import { UserProvider } from '../../contexts/UserContext';
+
 
 
 function MyApp ({ Component, pageProps }: AppProps){
@@ -10,6 +11,7 @@ function MyApp ({ Component, pageProps }: AppProps){
         <>
             <NavBar />
             <Component {...pageProps} />
+         
         
         </>
         </UserProvider>

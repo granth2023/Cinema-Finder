@@ -59,7 +59,10 @@ model Theater {
   address String 
   lat Float 
   lng Float 
+  wesbite String?
   screenings Screening[]
+  scrapingUrl String?
+  siteIdentifier String?
 }
 
 model Watchlist {
