@@ -1,50 +1,58 @@
 // helpers/scrapeScreenings.ts
-
 import fetch from 'node-fetch';
 import { JSDOM } from 'jsdom';
+import sitesConfig from '../../../sites.json';
 
-interface ScrapingParams { 
+interface ScrapingParams {
   url: string;
   siteIdentifier: string;
 }
 
-export async function scrapeScreenings ({ url, siteIdentifier }: ScrapingParams) : Promise<string[]> {
-  console.log(`Scraping URL: ${url}`);
-  console.log(`Site Identifier: ${siteIdentifier}`);
+// Define a type for the screenings object
+type Screening = {
+  movieTitle: string;
+  showtime: string;
+};
 
-  const response = await fetch(url);
-  const html = await response.text();
-  
-  console.log(html.substring(0, 200));  // log the first 200 characters
+async function scrapeScreenings({ url, siteIdentifier }: ScrapingParams): Promise<Screening[]> {
+  try {
+    console.log(`Scraping URL: ${url}`);
+    console.log(`Site Identifier: ${siteIdentifier}`);
 
-  const dom = new JSDOM(html);
-  const document = dom.window.document;
-  const showtimesElements = document.querySelectorAll(siteIdentifier);
-  
-  let screenings: string[] = [];
-  showtimesElements.forEach((el: Element) => {
-    screenings.push(el.textContent!.trim());
-  });
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
 
-  switch (siteIdentifier) {
-    case 'IFC': 
-      const ifcScreenings = document.querySelectorAll('.showtimes');
-      ifcScreenings.forEach((el: Element) => { 
-        screenings.push(el.textContent!.trim());
-      });
-      break;
+    const siteConfig = sitesConfig.find(site => site.name === siteIdentifier);
+    if (!siteConfig) {
+      throw new Error(`Unknown site identifier: ${siteIdentifier}`);
+    }
 
-    case 'Nitehawk':
-      const nitehawkScreenings = document.querySelectorAll('.showtimes-container.clearfix');
-      nitehawkScreenings.forEach((el: Element) => { 
-        screenings.push(el.textContent!.trim());
-      });
-      break;
+    const html = await response.text();
+    const dom = new JSDOM(html);
+    const document = dom.window.document;
+    const showtimesElements = document.querySelectorAll(siteConfig.screeningsSelector);
 
-    default: 
-      console.error('Unknown site identifier: ' + siteIdentifier);
+    // Define screenings with a type
+    let screenings: Screening[] = [];
+    showtimesElements.forEach((el: Element) => {
+      const movieTitle = el.querySelector('.movie-title')?.textContent?.trim();
+      const showtime = el.querySelector('.showtime')?.textContent?.trim();
+      
+      if (movieTitle && showtime) {
+        screenings.push({ movieTitle, showtime });
+      }
+    });
+
+    console.log(`Extracted screenings:`, screenings);  // Updated to log the actual object
+    return screenings;
+
+  } catch (error: any) {
+    console.error(`Failed to scrape screenings: ${error.message}`);
+    throw error;  // re-throw the error after logging it
   }
-
-  console.log(`Extracted screenings: ${screenings}`);
-  return screenings;
 }
+
+// Export the scrapeScreenings function as a named export
+export { scrapeScreenings };

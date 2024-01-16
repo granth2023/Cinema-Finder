@@ -1,47 +1,14 @@
-import NavBar from "../components/NavBar";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useUser } from "../../contexts/UserContext";
-
-type Movie = {
-    id: number;
-    title: string;
-}
+// src/pages/profile.tsx
+import { useUser } from '../../contexts/UserContext';
 
 const ProfilePage: React.FC = () => {
     const { user } = useUser();
-    const [favorites, setFavorites] = useState<Movie[]>([]);
+    console.log(user);
 
-    useEffect(() => {
-        const fetchFavorites = async () => {
-            if(user){ 
-                try { 
-                    const res = await axios.get(`/api/favorite/add/${user.id}`);
-                    setFavorites(res.data);
-                } catch (error) {
-                    console.error('Error fetching favorites:', error);
-                }
-            }
-        };
-        fetchFavorites();
-    }, [user]);
+    // If user is not available, you can provide a default message or redirect the user
+    if (!user) return <p>Please login to view your profile</p>;
 
-    if(!user) return <p>Please login to view your profile</p>
-    return (
-        <div className="container mx-auto p-4"> 
-            <NavBar />
-            <h1 className="text-2x1 font-bold">Profile Page</h1>
-            <h2>Your Favorites</h2>
-            <ul>
-                {favorites.map(movie => (
-                    <li key={movie.id}> 
-                        {movie.title}
-                    </li>
-                ))}
-                </ul>
-
-        </div>
-    );
+    return <div>Hello, {user.name}!</div>;
 }
 
-export default ProfilePage
+export default ProfilePage;
