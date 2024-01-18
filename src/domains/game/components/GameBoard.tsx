@@ -24,6 +24,12 @@ const GameBoard = () => {
                     <button id='startbutton' onClick={startGame}>Click to Start</button>
                 </div>
             )}
+            {gameOver && (
+                <div id='overlay-game-over'>
+
+                    
+                </div>
+            )}
 
         <div className="game-container">
             <div className="game-info-container">
