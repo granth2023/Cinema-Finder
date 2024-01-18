@@ -4,7 +4,7 @@ interface CardProps {
     backImage: string;
     frontImage: string;
 }
-
+//manage state of each card either flipped or not
 const Card: React.FC<CardProps> = ({ backImage, frontImage }) => {
 
     return (
