@@ -8,6 +8,9 @@ const GameBoard = () => {
 
     const [gameStarted, setGameStarted] = useState(false);
     const [gameOver, setGameOver] = useState(false)
+
+    const startGame = () => {
+    }
     
 
     return (
