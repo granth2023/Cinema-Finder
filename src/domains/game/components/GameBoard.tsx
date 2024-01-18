@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from './Card';
 
 
@@ -15,7 +15,7 @@ const GameBoard = () => {
                     Timer <span id ="time-remaining">30</span>
                 </div>
                 </div>
-
+                <Card backImage="reel.png" frontImage="newmatriximage.jpeg"/>
 
         </div>
 
