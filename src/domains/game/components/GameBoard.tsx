@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import Card from './Card';
 
 
+
+
 const GameBoard = () => {
+
+    const [] = useState(false);
+    
 
     return (
         <div className="game-container">
