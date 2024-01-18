@@ -9,6 +9,11 @@ const Card: React.FC<CardProps> = ({ backImage, frontImage }) => {
 
     return (
         <div className="card">
+            <div className="card-back card-face">
+
+
+                
+            </div>
 
 
 
