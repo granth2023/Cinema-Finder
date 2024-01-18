@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface CardProps {
     backImage: string;
@@ -6,6 +6,7 @@ interface CardProps {
 }
 //manage state of each card either flipped or not
 const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick }) => {
+    const [] = useState(false)
 
     return (
         <div className="card">
