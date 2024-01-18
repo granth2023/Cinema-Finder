@@ -10,6 +10,7 @@ const GameBoard = () => {
     const [gameOver, setGameOver] = useState(false)
 
     const startGame = () => {
+        setGameStarted(true);
     }
     const handleGameOver = () => {
     }
