@@ -8,7 +8,7 @@ const GameBoard = () => {
 
     const [gameStarted, setGameStarted] = useState(false);
     const [gameOver, setGameOver] = useState(false)
-
+    const [flippedCards, setFlippedCards] = useState([]);
     const startGame = () => {
         setGameStarted(true);
     }
