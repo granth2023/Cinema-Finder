@@ -3,5 +3,7 @@ import Card from './Card';
 
 
 const GameBoard = () => {
-    
+
 }
+
+export default GameBoard;
