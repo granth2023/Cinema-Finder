@@ -21,7 +21,7 @@ const GameBoard = () => {
         <div>
             {!gameStarted && ( 
                 <div className='overlay-welcome'>
-                    
+                    <button id='startbutton' onClick={startGame}>Click to Start</button>
                 </div>
             )}
 
