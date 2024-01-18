@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Nitehawk",
+        "url": "https://nitehawkcinema.com/prospectpark",
+        "screeningsSelector": ".buy-tickets"
+    },
+    {
+        "name": "IFC Center",
+        "url": "https://www.ifccenter.com",
+        "screeningsSelector": ".daily-schedule"
+    }
+]

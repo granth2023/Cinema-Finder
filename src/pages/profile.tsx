@@ -1,12 +1,14 @@
-import NavBar from "../components/NavBar";
+// src/pages/profile.tsx
+import { useUser } from '../../contexts/UserContext';
 
 const ProfilePage: React.FC = () => {
-    return (
-        <div className="container mx-auto p-4"> 
-            <NavBar />
-            <h1 className="text- 2x1 font-bold">Profile Page</h1>
-        </div>
-    );
+    const { user } = useUser();
+    console.log(user);
+
+    // If user is not available, you can provide a default message or redirect the user
+    if (!user) return <p>Please login to view your profile</p>;
+
+    return <div>Hello, {user.name}!</div>;
 }
 
-export default ProfilePage
+export default ProfilePage;

@@ -17,6 +17,7 @@ model Movie {
   title     String
   screening Screening[]
   favorites Favorite[]
+  watchlists Watchlist[]
 }
 
 model User { 
@@ -29,6 +30,7 @@ model User {
   role      UserRole @default(User)
   screenings Screening[]
   favorites Favorite[]
+  watchlists Watchlist[]
 }
 
 model Screening {
@@ -57,6 +59,18 @@ model Theater {
   address String 
   lat Float 
   lng Float 
+  website String?
   screenings Screening[]
+  scrapingUrl String?
+  siteIdentifier String?
 }
+
+model Watchlist {
+  id      Int    @id @default(autoincrement())
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int 
+  movie   Movie  @relation(fields: [movieId], references: [id])
+  movieId Int
+}
+
 

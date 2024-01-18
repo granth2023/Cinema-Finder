@@ -12,6 +12,16 @@ const MAP_CONTAINER_STYLE = {
   margin: "auto",
 };
 
+interface ScrapingInfo {
+  siteIdentifier: string;
+  scrapingUrl: string;
+}
+
+const theaterScrapingInfo: { [key: string]: ScrapingInfo } = {
+  'IFC Center': { siteIdentifier: '.showtimes', scrapingUrl: 'https://www.ifccenter.com' },
+  'Nitehawk': { siteIdentifier: '.buy-tickets', scrapingUrl: 'https://nitehawkcinema.com/prospectpark'}
+};
+
 interface Location {
   lat: number;
   lng: number;
@@ -25,6 +35,8 @@ interface Theater {
   name: string;
   address: string;
   website?: string;
+  scrapingUrl?: string;
+  siteIdentifier?: string;
 }
 
 const Search = () => {
@@ -51,13 +63,39 @@ const Search = () => {
     const service = new google.maps.places.PlacesService(mapRef.current as google.maps.Map);
     service.getDetails(request, (place, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK && place) {
-        callback({
+        const additionalDetails= {
           website: place.website || '',
           address: place.formatted_address || '',
-        });
+        };
+        callback(additionalDetails);
       }
-    });
+        });
+    
   };
+  async function fetchScreenings(theater: Theater) {
+    console.log("fetchScreenings called");
+    console.log('theater.siteIdentifier:', theater.siteIdentifier);  // Debug log
+    console.log('theater.scrapingUrl:', theater.scrapingUrl);  // Debug log
+    if (!theater?.siteIdentifier || !theater?.scrapingUrl) {
+      alert("Scraping information not found for this theater");
+      return;
+    }
+  
+    try {
+      const url = `/api/scrape?siteIdentifier=${encodeURIComponent(theater.siteIdentifier)}&url=${encodeURIComponent(theater.scrapingUrl)}`;
+      console.log('fetchScreenings url:', url);  // Log the URL you're about to fetch
+      const response = await fetch(url);
+      if (!response.ok) {
+        console.error('Error fetching screenings:', response.statusText);
+        return;
+      }
+      console.log('fetchScreenings response:', await response.json());
+      const screenings = await response.json();
+      console.log(screenings);
+    } catch (error) {
+      console.error("Error fetching screenings:", error);
+    }
+}
 
   const getUberTo = (theater: Theater) => {
     const uberUrl = `https://m.uber.com/ul/action=setPickup&dropoff[latitude]=${theater.lat}&dropoff[longitude]=${theater.lng}`;
@@ -127,8 +165,12 @@ const Search = () => {
                 key={theater.id}
                 position={{ lat: theater.lat, lng: theater.lng }}
                 onClick={() => {
+                  console.log('Marker was clicked');
+                  console.log("Selected theater:", theater);
                   fetchAdditionalDetails(theater.id, (place) => {
-                    setSelectedTheater({ ...theater, website: place.website, address: place.address });
+                    const scrapingInfo = theaterScrapingInfo[theater?.name];
+                    
+                    setSelectedTheater({ ...theater, website: place.website, address: place.address, siteIdentifier: scrapingInfo.siteIdentifier, scrapingUrl: scrapingInfo.scrapingUrl });
                   });
                 }}
               />
@@ -144,6 +186,7 @@ const Search = () => {
                   {selectedTheater.website && <a href={selectedTheater.website} target="_blank" rel="noopener noreferrer">Visit Website</a>}
                   <button onClick={() => getUberTo(selectedTheater)}>Get Uber</button>
                   <button onClick={() => getDirections(selectedTheater)}>Get Directions</button>
+                  <button onClick={() => fetchScreenings(selectedTheater)}>Get Showtimes</button>
                 </div>
               </InfoWindow>
             )}
