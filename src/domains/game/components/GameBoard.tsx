@@ -7,6 +7,7 @@ import Card from './Card';
 const GameBoard = () => {
 
     const [] = useState(false);
+    const [] = useState(false)
     
 
     return (
