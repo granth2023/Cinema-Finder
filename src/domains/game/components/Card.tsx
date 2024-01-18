@@ -10,7 +10,7 @@ const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick }) => {
 
     const handleClick = () => {
         setIsFlipped(!isFlipped)
-
+        onCardClick({ backImage, frontImage })
     }
 
     return (
