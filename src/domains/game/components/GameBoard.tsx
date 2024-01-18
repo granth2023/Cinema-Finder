@@ -18,6 +18,9 @@ const GameBoard = () => {
     const handleCardClick = (card) => {
         setFlippedCards([...flippedCards, card]);
     }
+
+    const renderCards = () => {
+    }
     return (
 
         <div>
