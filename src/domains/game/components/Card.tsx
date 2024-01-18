@@ -8,6 +8,10 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick }) => {
     const [] = useState(false)
 
+    const handleClick = () => {
+        
+    }
+
     return (
         <div className="card">
             <div className="card-back card-face">
