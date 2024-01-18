@@ -14,6 +14,8 @@ const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick }) => {
     }
 
     return (
+        <div className={` card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
+
         <div className="card">
             <div className="card-back card-face">
                 <img className='movie-reel' src={backImage} alt="Card Back" />
