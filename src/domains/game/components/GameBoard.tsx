@@ -11,7 +11,8 @@ const GameBoard = () => {
 
     const startGame = () => {
     }
-    
+    const handleGameOver = () => {
+    }
 
     return (
         <div className="game-container">
