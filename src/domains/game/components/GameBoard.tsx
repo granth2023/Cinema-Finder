@@ -11,7 +11,10 @@ const GameBoard = () => {
                     FLIPS <span id="flip">0</span>    
                 
                 </div>
-
+                <div className="game-info">
+                    Timer <span id ="time-remaining">30</span>
+                </div>
+                </div>
 
 
         </div>
