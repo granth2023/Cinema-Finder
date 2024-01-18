@@ -7,6 +7,11 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ backImage, frontImage }) => {
 
+    return (
+        
+    )
+
 }
+
 
 export default Card;
