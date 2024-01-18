@@ -26,10 +26,12 @@ const GameBoard = () => {
             )}
             {gameOver && (
                 <div id='overlay-game-over'>
+                    Try again!
+                    <button id='restart' onClick={() => { setGameStarted(false); setGameOver(false); }}>Restart</button>
+                    </div>
+                )}
 
-                    
-                </div>
-            )}
+
 
         <div className="game-container">
             <div className="game-info-container">
