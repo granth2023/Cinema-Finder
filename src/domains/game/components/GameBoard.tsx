@@ -15,7 +15,8 @@ const GameBoard = () => {
     const handleGameOver = () => {
         setGameOver(true);
     }
-
+    const handleCardClick = (card) => {
+    }
     return (
 
         <div>
