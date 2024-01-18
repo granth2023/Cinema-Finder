@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface CardProps {
     backImage: string;
     frontImage: string;
 }
 //manage state of each card either flipped or not
-const Card: React.FC<CardProps> = ({ backImage, frontImage }) => {
+const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick }) => {
+    const [isFlipped, setIsFlipped] = useState(false)
+
+    const handleClick = () => {
+        setIsFlipped(!isFlipped)
+        onCardClick({ backImage, frontImage })
+    }
 
     return (
-        <div className="card">
+        <div className={` card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
+
             <div className="card-back card-face">
                 <img className='movie-reel' src={backImage} alt="Card Back" />
              </div>
