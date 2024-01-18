@@ -15,14 +15,8 @@ const Card: React.FC<CardProps> = ({ backImage, frontImage }) => {
              <div className="card-front card-face">
                 <img className="card-value" src={frontImage} alt="Card Front" />
              </div>
-
-
-
-
         </div>
     );
 
-}
-
-
+};
 export default Card;
