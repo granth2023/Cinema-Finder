@@ -17,6 +17,14 @@ const GameBoard = () => {
     }
 
     return (
+
+        <div>
+            {!gameStarted && ( 
+                <div className='overlay-welcome'>
+                    
+                </div>
+            )}
+
         <div className="game-container">
             <div className="game-info-container">
                 <div className="game-info"> 
@@ -29,6 +37,7 @@ const GameBoard = () => {
                 </div>
                 <Card backImage="reel.png" frontImage="newmatriximage.jpeg"/>
 
+        </div>
         </div>
 
 
