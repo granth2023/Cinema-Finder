@@ -10,7 +10,7 @@ const GameBoard = () => {
     const [gameOver, setGameOver] = useState(false)
     const [flippedCards, setFlippedCards] = useState([]);
     //use state for cards need the array of image files?
-    const [card, setCards] = useState([]);
+    const [cards, setCards] = useState([{frontImage: 'newmatrixImage.jpeg', matched: false}]);
 
     const startGame = () => {
         setGameStarted(true);
@@ -27,8 +27,9 @@ const GameBoard = () => {
         if(cards.every(card => card.matched)) {
             setGameOver(true);
     }
-    const handleCardClick = (card) => {
-        setFlippedCards([...flippedCards, card]);
+}
+    const handleCardClick = (clickedCard) => {
+        setFlippedCards([...flippedCards, clickedCard]);
 
         if(flippedCards.length === 1) {
             if (clickedCard.frontImage === flippedCards[0].frontImage) {
@@ -36,8 +37,13 @@ const GameBoard = () => {
                 setCards(cards.map(card => 
                     card.frontImage === clickedCard.frontImage ? {...card, matched: true}: card )); 
                     setFlippedCards([]);
+        } else {
+            setTimeout(() => {
+                setFlippedCards([]);
+            }, 1000);
+            }
         }
-    }
+    };
 
     const renderCards = () => {
         return (
