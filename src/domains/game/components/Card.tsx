@@ -3,18 +3,19 @@ import React, { useState } from 'react';
 interface CardProps {
     backImage: string;
     frontImage: string;
+    onCardClick: () => void;
+    flipped: boolean;
+    matched: boolean;
 }
 //manage state of each card either flipped or not
-const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick }) => {
-    const [isFlipped, setIsFlipped] = useState(false)
+const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick, flipped, matched }) => {
+    const cardClasses = `card ${flipped ? 'flipped' : ''} ${matched ? 'matched' : ''}`;
 
-    const handleClick = () => {
-        setIsFlipped(!isFlipped)
-        onCardClick({ backImage, frontImage })
-    }
+
+
 
     return (
-        <div className={` card ${isFlipped ? 'flipped' : ''}`} onClick={handleClick}>
+        <div className={cardClasses} onClick={onCardClick}>
 
             <div className="card-back card-face">
                 <img className='movie-reel' src={backImage} alt="Card Back" />
@@ -27,3 +28,6 @@ const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick }) => {
 
 };
 export default Card;
+
+//what is useEffect?
+// fetched api data -- lifecycle methods -- whatever function 
