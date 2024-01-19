@@ -13,6 +13,7 @@ const GameBoard = () => {
 
     const startGame = () => {
         setGameStarted(true);
+        setGameOver(false);
     }
     const handleGameOver = () => {
         setGameOver(true);
