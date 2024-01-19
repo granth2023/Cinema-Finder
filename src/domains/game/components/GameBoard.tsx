@@ -11,7 +11,7 @@ const GameBoard = () => {
 
     const [gameStarted, setGameStarted] = useState(false);
     const [gameOver, setGameOver] = useState(false)
-    const [flippedCards, setFlippedCards] = useState([]);
+    const [flippedCards, setFlippedCards] = useState<CardData[]>([]);
     //use state for cards need the array of image files?
     const [cards, setCards] = useState([{frontImage: 'newmatrixImage.jpeg', matched: false}]);
 
