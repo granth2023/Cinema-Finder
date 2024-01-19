@@ -46,8 +46,9 @@ const GameBoard = () => {
     };
 
     const renderCards = () => {
-        return (
-            <Card backImage='reel.png' frontImage="newmatriximage.jpeg" onCardClick={handleCardClick}/>
+        return cards.map((card) => {
+            <Card
+                key=)
         )
     }
     return (
