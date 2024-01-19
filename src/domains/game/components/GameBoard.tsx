@@ -32,6 +32,10 @@ const GameBoard = () => {
 
         if(flippedCards.length === 1) {
             if (clickedCard.frontImage === flippedCards[0].frontImage) {
+                //card match logic
+                setCards(cards.map(card => 
+                    card.frontImage === clickedCard.frontImage ? {...card, matched: true}: card )); 
+                    setFlippedCards([]);
         }
     }
 
