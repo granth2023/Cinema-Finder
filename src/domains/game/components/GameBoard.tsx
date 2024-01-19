@@ -31,7 +31,7 @@ const GameBoard = () => {
         setFlippedCards([...flippedCards, card]);
 
         if(flippedCards.length === 1) {
-            if
+            if (clickedCard.frontImage === flippedCards[0].frontImage) {
         }
     }
 
