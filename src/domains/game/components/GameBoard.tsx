@@ -48,9 +48,14 @@ const GameBoard = () => {
     const renderCards = () => {
         return cards.map((card) => {
             <Card
-                key=)
-        )
-    }
+                backImage='reel.png'
+                frontImage={card.frontImage}
+                onCardClick={() => handleCardClick(card)}
+                flipped={flippedCards.includes(card)}
+                matched={card.matched}
+                /> 
+                ));
+    };
     return (
         <div>
             {!gameStarted && (
