@@ -18,8 +18,12 @@ const GameBoard = () => {
         setFlippedCards([]);
         setCards(cards.map(card => ({...card, matched: false})));
     }
-    const handleGameOver = () => {
-        setGameOver(true);
+
+    const shuffle = (cardsArray) => {
+        return cardsArray.sort(() => Math.random() - 0.5)
+    }
+
+    const checkGameOver = () => {
     }
     const handleCardClick = (card) => {
         setFlippedCards([...flippedCards, card]);
