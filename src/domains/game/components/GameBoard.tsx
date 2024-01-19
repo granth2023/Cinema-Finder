@@ -24,11 +24,15 @@ const GameBoard = () => {
     }
 
     const checkGameOver = () => {
-        if(createReadStream.every(card => card.matched)) {
+        if(cards.every(card => card.matched)) {
             setGameOver(true);
     }
     const handleCardClick = (card) => {
         setFlippedCards([...flippedCards, card]);
+
+        if(flippedCards.length === 1) {
+            if
+        }
     }
 
     const renderCards = () => {
