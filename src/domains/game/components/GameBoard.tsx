@@ -53,8 +53,8 @@ const GameBoard = () => {
                 onCardClick={() => handleCardClick(card)}
                 flipped={flippedCards.includes(card)}
                 matched={card.matched}
-                /> 
-                ));
+            /> 
+        ));
     };
     return (
         <div>
@@ -66,11 +66,11 @@ const GameBoard = () => {
             {gameOver && (
                 <div id='overlay-game-over'>
                     Try again!
-                    <button onClick={() => { setGameStarted(false); setGameOver(false); }}>Restart</button>
+                    <button onClick={startGame}>Restart</button>
                 </div>
             )}
             <div className="game-container">
-                {renderCards()}
+                {gameStarted && renderCards()}
             </div>
         </div>
     );
