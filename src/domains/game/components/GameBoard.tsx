@@ -16,6 +16,7 @@ const GameBoard = () => {
         setGameStarted(true);
         setGameOver(false);
         setFlippedCards([]);
+        setCards(cards.map(card => ({...card, matched: false})));
     }
     const handleGameOver = () => {
         setGameOver(true);
