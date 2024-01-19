@@ -9,6 +9,8 @@ const GameBoard = () => {
     const [gameStarted, setGameStarted] = useState(false);
     const [gameOver, setGameOver] = useState(false)
     const [flippedCards, setFlippedCards] = useState([]);
+    const [card, setCards] = useState([]);
+
     const startGame = () => {
         setGameStarted(true);
     }
@@ -20,42 +22,27 @@ const GameBoard = () => {
     }
 
     const renderCards = () => {
+        return (
+            <Card backImage='reel.png' frontImage="newmatriximage.jpeg" onCardClick={handleCardClick}/>
+        )
     }
     return (
-
         <div>
-            {!gameStarted && ( 
+            {!gameStarted && (
                 <div className='overlay-welcome'>
-                    <button id='startbutton' onClick={startGame}>Click to Start</button>
+                    <button onClick={startGame}>Click to Start</button>
                 </div>
             )}
             {gameOver && (
                 <div id='overlay-game-over'>
                     Try again!
-                    <button id='restart' onClick={() => { setGameStarted(false); setGameOver(false); }}>Restart</button>
-                    </div>
-                )}
-
-
-
-        <div className="game-container">
-            <div className="game-info-container">
-                <div className="game-info"> 
-                    FLIPS <span id="flip">0</span>    
-                
+                    <button onClick={() => { setGameStarted(false); setGameOver(false); }}>Restart</button>
                 </div>
-                <div className="game-info">
-                    Timer <span id ="time-remaining">30</span>
-                </div>
-                </div>
-                <Card backImage="reel.png" frontImage="newmatriximage.jpeg"/>
-
+            )}
+            <div className="game-container">
+                {renderCards()}
+            </div>
         </div>
-        </div>
-
-
-    )
-
-}
-
+    );
+};
 export default GameBoard;
