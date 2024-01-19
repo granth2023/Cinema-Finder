@@ -24,6 +24,8 @@ const GameBoard = () => {
     }
 
     const checkGameOver = () => {
+        if(createReadStream.every(card => card.matched)) {
+            setGameOver(true);
     }
     const handleCardClick = (card) => {
         setFlippedCards([...flippedCards, card]);
