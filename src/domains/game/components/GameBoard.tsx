@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card';
 
 
-
+interface CardData {
+    frontImage: string;
+    matched: boolean;
+}
 
 const GameBoard = () => {
 
@@ -11,6 +14,12 @@ const GameBoard = () => {
     const [flippedCards, setFlippedCards] = useState([]);
     //use state for cards need the array of image files?
     const [cards, setCards] = useState([{frontImage: 'newmatrixImage.jpeg', matched: false}]);
+
+    useEffect(() => {
+        if(gameStarted) {
+            setCards(shuffle(cards));
+        }
+    })
 
     const startGame = () => {
         setGameStarted(true);
@@ -46,16 +55,17 @@ const GameBoard = () => {
     };
 
     const renderCards = () => {
-        return cards.map((card) => {
-            <Card
-                backImage='reel.png'
-                frontImage={card.frontImage}
+        return cards.map((card) => (
+            <Card 
+                backImage='reel.png' 
+                frontImage={card.frontImage} 
                 onCardClick={() => handleCardClick(card)}
                 flipped={flippedCards.includes(card)}
                 matched={card.matched}
-            /> 
+            />
         ));
     };
+
     return (
         <div>
             {!gameStarted && (
@@ -65,7 +75,7 @@ const GameBoard = () => {
             )}
             {gameOver && (
                 <div id='overlay-game-over'>
-                    Try again!
+                    Congratulations! Game Over.
                     <button onClick={startGame}>Restart</button>
                 </div>
             )}
@@ -75,4 +85,5 @@ const GameBoard = () => {
         </div>
     );
 };
+
 export default GameBoard;
