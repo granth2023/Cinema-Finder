@@ -36,7 +36,7 @@ const GameBoard = () => {
         if(cards.every(card => card.matched)) {
             setGameOver(true);
     }
-}
+};
     const handleCardClick = (clickedCard: CardData) => {
         setFlippedCards([...flippedCards, clickedCard]);
 
@@ -55,8 +55,9 @@ const GameBoard = () => {
     };
 
     const renderCards = () => {
-        return cards.map((card) => (
+        return cards.map((card, index) => (
             <Card 
+                key={index}
                 backImage='reel.png' 
                 frontImage={card.frontImage} 
                 onCardClick={() => handleCardClick(card)}
@@ -65,6 +66,7 @@ const GameBoard = () => {
             />
         ));
     };
+    
 
     return (
         <div>

@@ -3,9 +3,12 @@ import React, { useState } from 'react';
 interface CardProps {
     backImage: string;
     frontImage: string;
+    onCardClick: () => void;
+    flipped: boolean;
+    matched: boolean;
 }
 //manage state of each card either flipped or not
-const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick }) => {
+const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick, flipped, matched }) => {
     const [isFlipped, setIsFlipped] = useState(false)
 
     const handleClick = () => {
