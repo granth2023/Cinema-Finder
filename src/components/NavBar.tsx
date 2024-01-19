@@ -17,6 +17,7 @@ const NavBar: React.FC = () => {
         <li><Link href="/">Home</Link></li>
         <li><Link href="/profile">Profile</Link></li>
         <li><Link href="/search">Nearby Theaters</Link></li>
+        <li><Link href="/game"> Memory Game</Link></li>
         <li><button onClick={logout} className="text-indigo-600 hover:text-indigo-500">Logout</button></li>
       </ul>
     </nav>
