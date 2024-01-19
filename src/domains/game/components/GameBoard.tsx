@@ -37,7 +37,7 @@ const GameBoard = () => {
             setGameOver(true);
     }
 }
-    const handleCardClick = (clickedCard) => {
+    const handleCardClick = (clickedCard: CardData) => {
         setFlippedCards([...flippedCards, clickedCard]);
 
         if(flippedCards.length === 1) {
