@@ -15,6 +15,7 @@ const GameBoard = () => {
     const startGame = () => {
         setGameStarted(true);
         setGameOver(false);
+        setFlippedCards([]);
     }
     const handleGameOver = () => {
         setGameOver(true);
