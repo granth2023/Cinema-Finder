@@ -31,3 +31,4 @@ export default Card;
 
 //what is useEffect?
 // fetched api data -- lifecycle methods -- whatever function 
+//useEfect lets us handle changes: what are 3 lifecycle methods: did mount, did update, unmounted
