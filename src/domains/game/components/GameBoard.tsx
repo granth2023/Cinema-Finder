@@ -9,6 +9,7 @@ const GameBoard = () => {
     const [gameStarted, setGameStarted] = useState(false);
     const [gameOver, setGameOver] = useState(false)
     const [flippedCards, setFlippedCards] = useState([]);
+    //use state for cards need the array of image files?
     const [card, setCards] = useState([]);
 
     const startGame = () => {
