@@ -28,7 +28,7 @@ const GameBoard = () => {
         setCards(cards.map(card => ({...card, matched: false})));
     }
 
-    const shuffle = (cardsArray) => {
+    const shuffle = (cardsArray: CardData[]) => {
         return cardsArray.sort(() => Math.random() - 0.5)
     }
 
