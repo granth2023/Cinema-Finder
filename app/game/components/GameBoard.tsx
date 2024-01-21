@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Card from '../../src/domains/game/components/Card';
+import Card from './Card';
 
 
 interface CardData {
