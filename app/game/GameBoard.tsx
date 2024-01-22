@@ -15,6 +15,7 @@ const GameBoard: React.FC = () => {
 
     useEffect(() => {
       const initializedCards = initializeCards();
+      setCards(initializedCards);
 
     const startGame = () => {
         setGameStarted(true);
