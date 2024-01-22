@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card';
 
 
@@ -12,6 +12,7 @@ const GameBoard = () => {
     const [gameStarted, setGameStarted] = useState(false);
     const [gameOver, setGameOver] = useState(false)
     const [flippedCards, setFlippedCards] = useState<CardData[]>([]);
+ 
     //use state for cards need the array of image files?
     const [cards, setCards] = useState<CardData[]>([{frontImage: 'newmatrixImage.jpeg', matched: false}, {frontImage: 
     'newindiana.jpeg', matched: false}, {frontImage: 'newheat.jpeg', matched:false}, {frontImage:'newfugitive.jpeg', matched: false}, {frontImage: 'newmission.jpeg', matched: false} ]);
