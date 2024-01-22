@@ -8,13 +8,7 @@ type CardType = {
 }
 
 const GameBoard: React.FC = () => {
-    const [gameStarted, setGameStarted] = useState<boolean>(false);
-    const [gameOver, setGameOver] = useState<boolean>(false);
-    const [flippedCards, setFlippedCards] = useState<CardData[]>([]);
-    const [cards, setCards] = useState<CardData[]>([
-        { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },
-        // ...other card objects
-    ]);
+    const [cards, setCards] = useState<CardType[]>([]);
 
     useEffect(() => {
         if (gameStarted) {
