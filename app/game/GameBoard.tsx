@@ -10,7 +10,7 @@ type CardType = {
 const GameBoard: React.FC = () => {
     const [cards, setCards] = useState<CardType[]>([]);
     const[flippedIndices, setFlippedIndices]= useState<number[]>([]);
-
+    const [matchesFound, setMatchesFound] = useState<number>(0);
     useEffect(() => {
         if (gameStarted) {
             setCards(shuffle(cards));
