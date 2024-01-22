@@ -13,7 +13,8 @@ const GameBoard = () => {
     const [gameOver, setGameOver] = useState(false)
     const [flippedCards, setFlippedCards] = useState<CardData[]>([]);
     //use state for cards need the array of image files?
-    const [cards, setCards] = useState<CardData[]>([{frontImage: 'newmatrixImage.jpeg', matched: false}]);
+    const [cards, setCards] = useState<CardData[]>([{frontImage: 'newmatrixImage.jpeg', matched: false}, {frontImage: 
+    'newindiana.jpeg', matched: false}, {frontImage: 'newheat.jpeg', matched:false}, {frontImage:'newfugitive.jpeg', matched: false}, {frontImage: 'newmission.jpeg', matched: false} ]);
 
     useEffect(() => {
         if(gameStarted) {
@@ -82,6 +83,9 @@ const GameBoard = () => {
                 </div>
             )}
             <div className="game-container">
+                {gameStarted && renderCards()}
+            </div>
+            <div className='grid grid-cols-4 gap-4 justify-center p-4'>
                 {gameStarted && renderCards()}
             </div>
         </div>
