@@ -30,6 +30,11 @@ const GameBoard: React.FC = () => {
 
             if(firstCard.id === secondCard.id) {
                 setMatchesFound(prev => prev + 1);
+                setCards(prevCards =>
+                    prevCards.map(card =>
+                        card.id == firstCard.id ? { ...card, matched: true} :card 
+                        )
+                    );
 
             }
         }
