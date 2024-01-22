@@ -11,11 +11,10 @@ const GameBoard: React.FC = () => {
     const [cards, setCards] = useState<CardType[]>([]);
     const[flippedIndices, setFlippedIndices]= useState<number[]>([]);
     const [matchesFound, setMatchesFound] = useState<number>(0);
+
+
     useEffect(() => {
-        if (gameStarted) {
-            setCards(shuffle(cards));
-        }
-    }, [gameStarted, cards]);
+      const initializedCards = initializeCards();
 
     const startGame = () => {
         setGameStarted(true);
