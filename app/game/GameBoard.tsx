@@ -37,7 +37,11 @@ const GameBoard: React.FC = () => {
                     );
 
             }
-        }
+            setTimeout (() => {
+                setFlippedIndices([])
+            }, 1000);
+            
+        };
     }
 
     const shuffle = (cardsArray: CardData[]): CardData[] => {
