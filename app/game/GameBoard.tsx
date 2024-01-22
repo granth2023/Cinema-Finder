@@ -27,6 +27,10 @@ const GameBoard: React.FC = () => {
         if(flippedIndices.length === 1){
             const firstCard = cards[flippedIndices[0]];
             const secondCard = cards[index];
+
+            if(firstCard.id === secondCard.id) {
+                
+            }
         }
     }
 
