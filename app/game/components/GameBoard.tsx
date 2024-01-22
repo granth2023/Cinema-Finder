@@ -86,7 +86,7 @@ const GameBoard = () => {
                 {gameStarted && renderCards()}
             </div>
             <div className='grid grid-cols-4 gap-4 justify-center p-4'>
-                {}
+                {gameStarted && renderCards()}
             </div>
         </div>
     );
