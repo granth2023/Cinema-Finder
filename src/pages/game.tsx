@@ -1,14 +1,32 @@
-// import React from 'react';
+import React from 'react';
 
-// import GameBoard from '../../app/game/components/GameBoard';
+import GameBoard from '../../app/game/components/GameBoard';
 
-// const GamePage: React.FC = () => {
-//     return (
-//         <div>
-//             <h1>Memory Game</h1>
-//             <GameBoard />
-//         </div>
-//     )
+export async function getServerSideProps(context){
+    const gameData =await fetchGameData();
 
-// }
-// export default GamePage;
+    return {
+        props: {
+            gameData,
+        },
+    };
+}
+
+const GamePage: React.FC = () => {
+    return (
+        <div>
+            <h1>Memory Game</h1>
+            <GameBoard />
+            {/* <GameBoard initialData={gameData} /> */}
+        </div>
+    )
+
+}
+export default GamePage;
+
+async function fetchGameData(){
+
+    return{
+
+    } 
+}
