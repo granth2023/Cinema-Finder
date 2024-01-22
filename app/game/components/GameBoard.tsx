@@ -85,6 +85,9 @@ const GameBoard = () => {
             <div className="game-container">
                 {gameStarted && renderCards()}
             </div>
+            <div className='grid grid-cols-4 gap-4 justify-center p-4'>
+                {}
+            </div>
         </div>
     );
 };
