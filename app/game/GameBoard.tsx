@@ -18,12 +18,11 @@ const GameBoard: React.FC = () => {
       setCards(initializedCards);
     }, []);
 
-    const startGame = () => {
-        setGameStarted(true);
-        setGameOver(false);
-        setFlippedCards([]);
-        setCards(cards.map(card => ({ ...card, matched: false })));
-    };
+    const handlCardClick =( index: number) => {
+        if(flippedIndices.length ===2) {
+            return;
+        }
+    }
 
     const shuffle = (cardsArray: CardData[]): CardData[] => {
         return cardsArray.sort(() => Math.random() - 0.5);
