@@ -1,32 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import Card from './Card';
+import Card from './components/Card';
 
-interface CardData {
+type CardType = {
+    id: number, 
     frontImage: string;
     matched: boolean;
 }
 
 const GameBoard: React.FC = () => {
-    const [gameStarted, setGameStarted] = useState<boolean>(false);
-    const [gameOver, setGameOver] = useState<boolean>(false);
-    const [flippedCards, setFlippedCards] = useState<CardData[]>([]);
-    const [cards, setCards] = useState<CardData[]>([
-        { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },  { frontImage: 'newmatrixImage.jpeg', matched: false },
-        // ...other card objects
-    ]);
+    const [cards, setCards] = useState<CardType[]>([]);
+    const[flippedIndices, setFlippedIndices]= useState<number[]>([]);
+    const [matchesFound, setMatchesFound] = useState<number>(0);
+
 
     useEffect(() => {
-        if (gameStarted) {
-            setCards(shuffle(cards));
-        }
-    }, [gameStarted, cards]);
+      const initializedCards = initializeCards();
+      setCards(initializedCards);
+    }, []);
 
-    const startGame = () => {
-        setGameStarted(true);
-        setGameOver(false);
-        setFlippedCards([]);
-        setCards(cards.map(card => ({ ...card, matched: false })));
+    const handlCardClick =( index: number) => {
+        if(flippedIndices.length ===2) {
+            return;
+        }
+        setFlippedIndices(prev=> [...prev,index]);
+
+        if(flippedIndices.length === 1){
+            const firstCard = cards[flippedIndices[0]];
+            const secondCard = cards[index];
+
+            if(firstCard.id === secondCard.id) {
+                setMatchesFound(prev => prev + 1);
+                setCards(prevCards =>
+                    prevCards.map(card =>
+                        card.id == firstCard.id ? { ...card, matched: true} :card 
+                        )
+                    );
+
+            }
+            setTimeout (() => {
+                setFlippedIndices([])
+            }, 1000);
+            
+        };
     };
+    const initializeCards: (): CardType[] => {
+        
+    }
 
     const shuffle = (cardsArray: CardData[]): CardData[] => {
         return cardsArray.sort(() => Math.random() - 0.5);
