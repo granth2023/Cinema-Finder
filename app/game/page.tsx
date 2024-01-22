@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GameBoard from '../../app/game/components/GameBoard';
+import GameBoard from './components/GameBoard';
 
 const GamePage: React.FC = () => {
     return (

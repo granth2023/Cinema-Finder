@@ -15,7 +15,14 @@ const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick, flipped
 
 
     return (
-        <div className={cardClasses} onClick={onCardClick}>
+        <div className={`realtive h-40 w-40 m-2 ${flipped || matched ? '' : 'bg-blue-500'}`} onClick={onCardClick}>
+            <img
+                src={backImage}
+                alt="Card Back"
+                className
+
+
+            />
 
             <div className="card-back card-face">
                 <img className='movie-reel' src={backImage} alt="Card Back" />
