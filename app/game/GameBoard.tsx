@@ -9,6 +9,7 @@ type CardType = {
 
 const GameBoard: React.FC = () => {
     const [cards, setCards] = useState<CardType[]>([]);
+    const[flippedIndices, setFlippedIndices]= useState<number[]>([]);
 
     useEffect(() => {
         if (gameStarted) {
