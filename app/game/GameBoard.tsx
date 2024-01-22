@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Card from './components/Card';
 
-interface CardData {
+type CardType = {
+    id: number, 
     frontImage: string;
     matched: boolean;
 }
