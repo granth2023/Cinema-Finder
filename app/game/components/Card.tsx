@@ -19,7 +19,7 @@ const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick, flipped
             <img
                 src={backImage}
                 alt="Card Back"
-                className
+                className={`aboslute inset-0 h-full w-full object-cover ${ flipped ?'hidden' : ''}`}
 
 
             />
