@@ -29,7 +29,8 @@ const GameBoard: React.FC = () => {
             const secondCard = cards[index];
 
             if(firstCard.id === secondCard.id) {
-                
+                setMatchesFound(prev => prev + 1);
+
             }
         }
     }
