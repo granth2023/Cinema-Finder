@@ -9,27 +9,22 @@ interface CardProps {
 }
 //manage state of each card either flipped or not
 const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick, flipped, matched }) => {
-    
-
+    const cardClasses = `relative h-40 w-40 m-2 transform ${flipped || matched ? 'rotate-y-180' : ''}`;
 
     return (
-        <div className={`realtive h-40 w-40 m-2 ${flipped || matched ? '' : 'bg-blue-500'}`} onClick={onCardClick}>
+        <div className={cardClasses} onClick={onCardClick}>
             <img
                 src={backImage}
                 alt="Card Back"
-                className={`aboslute inset-0 h-full w-full object-cover ${ flipped ?'hidden' : ''}`}
-
-
+                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-linear ${flipped ? 'hidden' : ''}`}
             />
             <img 
                 src={frontImage}
                 alt="Card Front"
-                className={`absoltue inset-0 h-full w-full object-cover ${flipped ? '' : 'hidden' }`}
-                />
-
-          </div>
+                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-linear ${flipped ? '' : 'hidden'}`}
+            />
+        </div>
     );
-
 };
 export default Card;
 
