@@ -1,4 +1,4 @@
-import React form 'react';
+import React from 'react';
 import dynamic from "next/dynamic";
 
 const GameBoard = dynamic(() => import('./GameBoard'), {ssr: false})    
@@ -10,4 +10,5 @@ const GamePage: React.FC = () => {
             <GameBoard />
         </div>
     )
-}
+};
+export default GamePage; 
