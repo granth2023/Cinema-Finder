@@ -22,6 +22,9 @@ const GameBoard: React.FC = () => {
         if(flippedIndices.length ===2) {
             return;
         }
+        setFlippedIndices(prev=> [...prev,index]);
+
+        if(flippedIndices.length === 1)
     }
 
     const shuffle = (cardsArray: CardData[]): CardData[] => {
