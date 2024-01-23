@@ -44,7 +44,10 @@ const GameBoard: React.FC = () => {
         };
     };
     const initializeCards: (): CardType[] => {
-        
+        const cardImages = [
+            
+        ]
+        let id = 0;
     }
 
     const shuffle = (cardsArray: CardData[]): CardData[] => {
