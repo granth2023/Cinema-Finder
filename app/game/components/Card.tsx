@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 interface CardProps {
     backImage: string;
     frontImage: string;
-    onCardClick: () => void;
+    onClick: () => void;
     flipped: boolean;
     matched: boolean;
 }
 //manage state of each card either flipped or not
-const Card: React.FC<CardProps> = ({ backImage, frontImage, onCardClick, flipped, matched }) => {
+const Card: React.FC<CardProps> = ({ backImage, frontImage, onClick, flipped, matched }) => {
     const cardClasses = `relative h-40 w-40 m-2 transform ${flipped || matched ? 'rotate-y-180' : ''}`;
 
     return (
-        <div className={cardClasses} onClick={onCardClick}>
+        <div className={cardClasses} onClick={onClick}>
             <img
                 src={backImage}
                 alt="Card Back"
