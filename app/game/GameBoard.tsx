@@ -45,6 +45,8 @@ const GameBoard: React.FC = () => {
     };
     const initializeCards: (): CardType[] => {
         const cardImages = [
+            'public/newfugitive.jpeg',
+            'public/newheat.jpeg'
             
         ]
         let id = 0;
