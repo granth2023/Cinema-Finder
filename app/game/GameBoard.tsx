@@ -47,7 +47,8 @@ const GameBoard: React.FC = () => {
         const cardImages = [
             'public/newfugitive.jpeg',
             'public/newheat.jpeg',
-            'public/newindiana.jpeg'
+            'public/newindiana.jpeg',
+            'public/newmatriximage.jpeg',
             
         ]
         let id = 0;
