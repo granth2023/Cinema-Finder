@@ -92,6 +92,7 @@ const GameBoard: React.FC = () => {
                 frontImage={card.frontImage}
                 onClick={() => handleCardClick(index)}
                 flipped={flippedIndices.includes(index) || card.matched}
+                matched={card.matched}
             />
         ));
     };
