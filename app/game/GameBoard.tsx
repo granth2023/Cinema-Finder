@@ -54,10 +54,10 @@ const GameBoard: React.FC = () => {
         let cards: CardType[] = [];
 
         cardImages.forEach((image, index) => {
-            for(let i =0; i < 2; i++){
-                
-
-            })
+            for(let i = 0; i < 2 ; i++){
+                cards.push({ id: index * 2 +i , frontImage: image, matched: false });
+            });
+            return shuffleArray(cards);
     }
 
     const shuffle = (cardsArray: CardData[]): CardData[] => {
