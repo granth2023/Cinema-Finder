@@ -51,7 +51,7 @@ const GameBoard: React.FC = () => {
             'public/newmatriximage.jpeg',
             'public/newmission.jpeg'
         ]
-        let id = 0;
+        let cards: CardType[] = [];
     }
 
     const shuffle = (cardsArray: CardData[]): CardData[] => {
