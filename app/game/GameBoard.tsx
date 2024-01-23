@@ -91,7 +91,7 @@ const GameBoard: React.FC = () => {
                 backImage='reel.png'  // Path to the back image
                 frontImage={card.frontImage}
                 onClick={() => handleCardClick(index)}
-                isFlipped={flippedIndices.includes(index) || card.matched}
+                flipped={flippedIndices.includes(index) || card.matched}
             />
         ));
     };
