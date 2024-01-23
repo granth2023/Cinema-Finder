@@ -52,6 +52,12 @@ const GameBoard: React.FC = () => {
             'public/newmission.jpeg'
         ]
         let cards: CardType[] = [];
+
+        cardImages.forEach((image, index) => {
+            for(let i =0; i < 2; i++){
+                
+
+            })
     }
 
     const shuffle = (cardsArray: CardData[]): CardData[] => {
