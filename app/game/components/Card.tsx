@@ -9,23 +9,17 @@ interface CardProps {
 }
 //manage state of each card either flipped or not
 const Card: React.FC<CardProps> = ({ backImage, frontImage, onClick, flipped, matched }) => {
-    const cardClasses = `relative h-40 w-40 m-2 transform ${flipped || matched ? 'rotate-y-180' : ''}`;
-
     return (
-        <div className={cardClasses} onClick={onClick}>
-            <img
-                src={backImage}
-                alt="Card Back"
-                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-linear ${flipped ? 'hidden' : ''}`}
-            />
-            <img 
-                src={frontImage}
-                alt="Card Front"
-                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-linear ${flipped ? '' : 'hidden'}`}
-            />
+        <div className="relative h-40 w-40 m-2" onClick={onClick}>
+            {flipped || matched ? (
+                <img src={frontImage} alt="Card Front" className="h-full w-full object-cover" />
+            ) : (
+                <img src={backImage} alt="Card Back" className="h-full w-full object-cover" />
+            )}
         </div>
     );
 };
+
 export default Card;
 
 //what is useEffect?
