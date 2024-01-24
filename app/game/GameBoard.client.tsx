@@ -59,10 +59,10 @@ const GameBoard: React.FC = () => {
     const initializeCards = (): CardType[] => {
         const cardImages = [
             '../../newfugitive.jpeg',
-            '../../public/newheat.jpeg',
-            '../../public/newindiana.jpeg',
-            '../../public/newmatriximage.jpeg',
-            '../../public/newmission.jpeg'
+            '../../newheat.jpeg',
+            '../../newindiana.jpeg',
+            '../../newmatriximage.jpeg',
+            '../../newmission.jpeg'
         ];
         let cards: CardType[] = [];
 
@@ -107,11 +107,12 @@ const GameBoard: React.FC = () => {
             {gameOver && (
                 <div>Game Over! <button onClick={startGame}>Restart</button></div>
             )}
-            <div className='grid grid-cols-4 gap-4 m-4'>
+            <div className='flex flex-wrap justify-center m-4'>
                 {gameStarted && renderCards()}
             </div>
         </div>
     );
+    
 };
 
 export default GameBoard;
