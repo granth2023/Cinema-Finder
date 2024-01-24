@@ -1,6 +1,6 @@
 // pages/_app.tsx
-import { UserProvider } from '../../contexts/UserContext';
-import NavBar from '../components/NavBar';
+import { UserProvider } from '../contexts/UserContext';
+import NavBar from '../src/components/NavBar';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import dynamic from "next/dynamic";
 
-const GameBoard = dynamic(() => import('./GameBoard'), {ssr: false})    
+const GameBoard = dynamic(() => import('./GameBoard.client'), {ssr: false})    
 
 const GamePage: React.FC = () => {
     return (
