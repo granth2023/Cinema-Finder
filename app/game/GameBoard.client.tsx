@@ -62,7 +62,7 @@ const GameBoard: React.FC = () => {
             '../../public/newheat.jpeg',
             '../../public/newindiana.jpeg',
             '../../public/newmatriximage.jpeg',
-            'public/newmission.jpeg'
+            '../../public/newmission.jpeg'
         ];
         let cards: CardType[] = [];
 
